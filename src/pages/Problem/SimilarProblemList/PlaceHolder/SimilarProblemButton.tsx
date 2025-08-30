@@ -1,5 +1,5 @@
-import { Button } from "../../../components";
-import AddCircleIcon from "../../../assets/add-circle.png";
+import { Button } from "components";
+import AddCircleIcon from "assets/add-circle.png";
 import * as styles from "./style.css";
 
 const SimilarProblemButton = () => {
