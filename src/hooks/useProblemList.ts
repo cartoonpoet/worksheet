@@ -5,6 +5,22 @@ import { useShallow } from "zustand/shallow";
 
 type LevelCountType = Record<1 | 2 | 3 | 4 | 5, number>;
 
+const createLevelCountText = (levelCount: LevelCountType) => {
+  const levels = [
+    { key: 1, label: "하" },
+    { key: 2, label: "중하" },
+    { key: 3, label: "중" },
+    { key: 4, label: "상" },
+    { key: 5, label: "최상" },
+  ];
+
+  return levels
+    .map(
+      ({ key, label }) => `${label}${levelCount[key as 1 | 2 | 3 | 4 | 5] || 0}`
+    )
+    .join(" · ");
+};
+
 export const useProblemList = () => {
   const { data = [] } = useGetProblems();
   const problems = useProblemStore((state) => state.problems);
@@ -32,12 +48,13 @@ export const useProblemList = () => {
   const handleAddSimilarProblem = (problemId: number) => {
     addProblemId(problemId);
   };
+  const levelCountText = createLevelCountText(levelCount);
 
   return {
-    levelCount,
     problemCount,
     problems,
     handleDeleteProblem,
     handleAddSimilarProblem,
+    levelCountText,
   };
 };

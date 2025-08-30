@@ -4,11 +4,11 @@ import { useProblemList } from "hooks/useProblemList";
 
 const ProblemList = () => {
   const {
-    levelCount,
     problemCount,
     problems,
     handleDeleteProblem,
     handleAddSimilarProblem,
+    levelCountText,
   } = useProblemList();
   return (
     <Card type="normal">
@@ -30,11 +30,7 @@ const ProblemList = () => {
           ))}
         </main>
         <footer className={styles.footerSection}>
-          <div className={styles.levelCountSection}>
-            하{levelCount[1] || 0} · 중하{levelCount[2] || 0} · 중
-            {levelCount[3] || 0} · 상{levelCount[4] || 0} · 최상
-            {levelCount[5] || 0}
-          </div>
+          <div className={styles.levelCountSection}>{levelCountText}</div>
           <div className={styles.separator}>&nbsp;&nbsp;|&nbsp;</div>
           <div className={styles.problemCountSection}>
             문제 수 {problemCount} 개
