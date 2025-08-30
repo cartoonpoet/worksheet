@@ -29,7 +29,7 @@ export interface ProblemResponse {
    * @description 1:하, 2:중하, 3:중, 4:상, 5:최상
    * @example 4
    */
-  level: number;
+  level: 1 | 2 | 3 | 4 | 5;
 
   /**
    * 문제의 유형
