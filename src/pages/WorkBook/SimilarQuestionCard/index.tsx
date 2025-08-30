@@ -1,13 +1,13 @@
 import { Card, Problem } from "components";
 import PlaceHolder from "./PlaceHolder";
 import * as styles from "./style.css";
-import { useSimilarProblemList } from "hooks/useSimilarProblemList";
+import { useSimilarQuestion } from "@/hooks/useSimilarQuestion";
 import AddCircleIcon from "assets/add-circle.png";
 import ReplaceCircleIcon from "assets/swap_horiz.png";
 
-const SimilarProblemList = () => {
+const SimilarQuestionCard = () => {
   const { similarProblems, handleAddProblem, handleReplaceProblem } =
-    useSimilarProblemList();
+    useSimilarQuestion();
   return (
     <Card type="similar">
       {similarProblems.length === 0 ? (
@@ -48,4 +48,4 @@ const SimilarProblemList = () => {
   );
 };
 
-export default SimilarProblemList;
+export default SimilarQuestionCard;

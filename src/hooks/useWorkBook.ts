@@ -20,7 +20,7 @@ const createLevelCountText = (levelCount: LevelCountType) => {
     .join(" · ");
 };
 
-export const useProblemList = () => {
+export const useWorkBook = () => {
   const queryClient = useQueryClient();
   const { data: problems = [] } = useGetProblems();
   const selectedProblemId = useProblemStore((state) => state.selectedProblemId);
@@ -67,3 +67,5 @@ export const useProblemList = () => {
     replacedProblemId,
   };
 };
+
+export const useProblemList = () => {};

@@ -7,7 +7,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { type ProblemType } from "../type";
 import { PROBLEMS_QUERY_KEY } from "apis/domain/problems/hook";
 
-export const useSimilarProblemList = () => {
+export const useSimilarQuestion = () => {
   const queryClient = useQueryClient();
   const problems =
     queryClient.getQueryData<ProblemType[]>(
