@@ -12,6 +12,8 @@ export default {
       hooks: path.resolve(__dirname, "./src/hooks"),
       style: path.resolve(__dirname, "./src/style"),
       assets: path.resolve(__dirname, "./src/assets"),
+      store: path.resolve(__dirname, "./src/store"),
+      type: path.resolve(__dirname, "./src/type"),
     },
   },
 };

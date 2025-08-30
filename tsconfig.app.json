@@ -32,7 +32,9 @@
       "pages/*": ["src/pages/*"],
       "hooks/*": ["src/hooks/*"],
       "style/*": ["src/style/*"],
-      "assets/*": ["src/assets/*"]
+      "assets/*": ["src/assets/*"],
+      "store/*": ["src/store/*"],
+      "type/*": ["src/type/*"]
     }
   },
   "include": ["src"]

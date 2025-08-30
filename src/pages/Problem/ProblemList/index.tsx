@@ -1,18 +1,15 @@
 import { Card, Problem } from "components";
 import * as styles from "./style.css";
-import { useGetProblems } from "apis/domain/problems/hook";
-
-type LevelCountType = Record<1 | 2 | 3 | 4 | 5, number>;
+import { useProblemList } from "hooks/useProblemList";
 
 const ProblemList = () => {
-  const { data: problems = [] } = useGetProblems();
-
-  const levelCount = problems.reduce((acc, problem) => {
-    acc[problem.level] = (acc[problem.level] || 0) + 1;
-    return acc;
-  }, {} as LevelCountType);
-  const problemCount = problems.length;
-
+  const {
+    levelCount,
+    problemCount,
+    problems,
+    handleDeleteProblem,
+    handleAddSimilarProblem,
+  } = useProblemList();
   return (
     <Card type="normal">
       <section className={styles.section}>
@@ -27,13 +24,16 @@ const ProblemList = () => {
               problemImageUrl={problem.problemImageUrl}
               answerRate={problem.answerRate}
               level={problem.level}
+              onClickDelete={() => handleDeleteProblem(problem.id)}
+              onClickSimilarProblem={() => handleAddSimilarProblem(problem.id)}
             />
           ))}
         </main>
         <footer className={styles.footerSection}>
           <div className={styles.levelCountSection}>
-            하{levelCount[1]} · 중하{levelCount[2]} · 중{levelCount[3]} · 상
-            {levelCount[4]} · 최상{levelCount[5]}
+            하{levelCount[1] || 0} · 중하{levelCount[2] || 0} · 중
+            {levelCount[3] || 0} · 상{levelCount[4] || 0} · 최상
+            {levelCount[5] || 0}
           </div>
           <div className={styles.separator}>&nbsp;&nbsp;|&nbsp;</div>
           <div className={styles.problemCountSection}>

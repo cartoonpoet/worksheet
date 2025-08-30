@@ -9,7 +9,7 @@ export const section = style({
 });
 
 export const headerSection = style([
-  font.head.bold,
+  font.body.bold,
   { color: color.mono.white, paddingTop: "1.7rem", paddingBottom: "1.6rem" },
 ]);
 

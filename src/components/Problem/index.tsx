@@ -10,6 +10,8 @@ interface ProblemProps {
   problemImageUrl: string;
   answerRate: number;
   level: 1 | 2 | 3 | 4 | 5; //난이도
+  onClickSimilarProblem?: () => void;
+  onClickDelete?: () => void;
 }
 
 const tagLevelMap = {
@@ -27,6 +29,8 @@ const Problem = ({
   problemImageUrl,
   answerRate,
   level,
+  onClickSimilarProblem,
+  onClickDelete,
 }: ProblemProps) => {
   return (
     <Card type="content">
@@ -35,11 +39,11 @@ const Problem = ({
         <div className={styles.titleSection}>
           <div className={styles.title}>{title}</div>
           <div className={styles.buttonSection}>
-            <button className={styles.button}>
+            <button className={styles.button} onClick={onClickSimilarProblem}>
               <img src={AddCircleIcon} alt="AddCircleIcon" draggable={false} />
               유사문제
             </button>
-            <button className={styles.button}>
+            <button className={styles.button} onClick={onClickDelete}>
               <img src={DeleteIcon} alt="DeleteIcon" draggable={false} />
               삭제
             </button>

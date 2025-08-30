@@ -10,7 +10,12 @@ export const SIMILARITY_QUERY_KEY = {
   ],
 };
 
-export const useGetSimilarity = (params: any) => {
+interface SimilarityParams {
+  problemId: number;
+  excludeProblemId: number[];
+}
+
+export const useGetSimilarity = (params: SimilarityParams) => {
   return useQuery<ProblemResponse[]>({
     queryKey: SIMILARITY_QUERY_KEY.GET_SIMILARITY_QUERY_KEY(
       params.problemId,
