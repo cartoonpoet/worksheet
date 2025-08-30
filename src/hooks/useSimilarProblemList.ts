@@ -38,7 +38,8 @@ export const useSimilarProblemList = () => {
     // 2. 메인 문제 리스트에 active된 문제 바로 앞에 유사문제 추가
     const findProblemInfo = similarProblems.find((p) => p.id === problemId);
     if (!findProblemInfo) return;
-    const newProblems = [...problems];
+
+    const newProblems = problems.filter((p) => p.id !== problemId);
     newProblems.splice(activeIndex + 1, 0, findProblemInfo);
 
     queryClient.setQueryData(
