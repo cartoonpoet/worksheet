@@ -2,13 +2,15 @@ import { Card, Problem } from "components";
 import * as styles from "./style.css";
 import { useGetProblems } from "apis/domain/problems/hook";
 
+type LevelCountType = Record<1 | 2 | 3 | 4 | 5, number>;
+
 const ProblemList = () => {
   const { data: problems = [] } = useGetProblems();
 
   const levelCount = problems.reduce((acc, problem) => {
     acc[problem.level] = (acc[problem.level] || 0) + 1;
     return acc;
-  }, {} as Record<1 | 2 | 3 | 4 | 5, number>);
+  }, {} as LevelCountType);
   const problemCount = problems.length;
 
   return (
