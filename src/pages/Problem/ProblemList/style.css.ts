@@ -18,6 +18,17 @@ export const mainSection = style({
   flexDirection: "column",
   gap: "1.6rem",
   flex: 1,
+  overflowY: "auto",
+  // 스크롤바 숨기기 (Webkit 브라우저)
+  "::-webkit-scrollbar": {
+    display: "none",
+  },
+
+  // Firefox에서 스크롤바 숨기기
+  scrollbarWidth: "none",
+
+  // IE에서 스크롤바 숨기기
+  msOverflowStyle: "none",
 });
 
 export const footerSection = style({
