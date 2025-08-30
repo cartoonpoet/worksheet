@@ -31,6 +31,19 @@ export const title = style([
     paddingTop: "0.4rem",
     paddingBottom: "0.3rem",
     color: color.mono.gray900,
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    // maxWidth: "22.8rem",
+    "@media": {
+      "(min-width: 1024px) and (max-width: 1279px)": {
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        maxWidth: "22.8rem",
+      },
+      "(min-width: 1280px)": {},
+    },
   },
 ]);
 

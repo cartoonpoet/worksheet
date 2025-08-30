@@ -4,10 +4,10 @@ import { color } from "../../style/style.css";
 export const card = recipe({
   base: {
     borderRadius: "1.2rem",
-    width: "100%",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
+    width: "100%",
   },
   variants: {
     type: {
