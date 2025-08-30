@@ -4,6 +4,14 @@ import DeleteIcon from "assets/delete.png";
 import AddCircleIcon from "assets/add-circle.png";
 import AddCircleFillIcon from "assets/add-circle-fill.png";
 
+interface ButtonConfig {
+  icon: string;
+  alt: string;
+  text: string;
+  onClick: () => void;
+  isSelected?: boolean;
+}
+
 interface ProblemProps {
   num: number;
   title: string;
@@ -11,9 +19,8 @@ interface ProblemProps {
   problemImageUrl: string;
   answerRate: number;
   level: 1 | 2 | 3 | 4 | 5; //난이도
-  onClickSimilarProblem?: () => void;
-  onClickDelete?: () => void;
   isSelected?: boolean;
+  buttons: ButtonConfig[];
 }
 
 const tagLevelMap = {
@@ -31,9 +38,8 @@ const Problem = ({
   problemImageUrl,
   answerRate,
   level,
-  onClickSimilarProblem,
-  onClickDelete,
   isSelected,
+  buttons,
 }: ProblemProps) => {
   return (
     <Card type="content" isSelected={isSelected}>
@@ -42,23 +48,18 @@ const Problem = ({
         <section className={styles.titleSection}>
           <div className={styles.title}>{title}</div>
           <div className={styles.buttonSection}>
-            <button
-              className={`${styles.button} ${
-                isSelected ? styles.buttonSelected : ""
-              }`}
-              onClick={onClickSimilarProblem}
-            >
-              <img
-                src={isSelected ? AddCircleFillIcon : AddCircleIcon}
-                alt="AddCircleIcon"
-                draggable={false}
-              />
-              유사문제
-            </button>
-            <button className={styles.button} onClick={onClickDelete}>
-              <img src={DeleteIcon} alt="DeleteIcon" draggable={false} />
-              삭제
-            </button>
+            {buttons.map((button, index) => (
+              <button
+                key={index}
+                className={`${styles.button} ${
+                  button.isSelected ? styles.buttonSelected : ""
+                }`}
+                onClick={button.onClick}
+              >
+                <img src={button.icon} alt={button.alt} draggable={false} />
+                {button.text}
+              </button>
+            ))}
           </div>
         </section>
       </header>

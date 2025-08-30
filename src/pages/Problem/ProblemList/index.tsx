@@ -1,6 +1,9 @@
 import { Card, Problem } from "components";
 import * as styles from "./style.css";
 import { useProblemList } from "hooks/useProblemList";
+import AddCircleIcon from "assets/add-circle.png";
+import AddCircleFillIcon from "assets/add-circle-fill.png";
+import DeleteIcon from "assets/delete.png";
 
 const ProblemList = () => {
   const {
@@ -16,20 +19,36 @@ const ProblemList = () => {
       <section className={styles.section}>
         <header className={styles.headerSection}>학습지 상세 편집</header>
         <main className={styles.mainSection}>
-          {problems.map((problem, idx) => (
-            <Problem
-              key={problem.id}
-              num={idx + 1}
-              title={problem.title}
-              isShortAnswer={problem.type === 2}
-              problemImageUrl={problem.problemImageUrl}
-              answerRate={problem.answerRate}
-              level={problem.level}
-              onClickDelete={() => handleDeleteProblem(problem.id)}
-              onClickSimilarProblem={() => handleAddSimilarProblem(problem.id)}
-              isSelected={selectedProblemId === problem.id}
-            />
-          ))}
+          {problems.map((problem, idx) => {
+            const isSelected = selectedProblemId === problem.id;
+            return (
+              <Problem
+                key={problem.id}
+                num={idx + 1}
+                title={problem.title}
+                isShortAnswer={problem.type === 2}
+                problemImageUrl={problem.problemImageUrl}
+                answerRate={problem.answerRate}
+                level={problem.level}
+                isSelected={isSelected}
+                buttons={[
+                  {
+                    icon: isSelected ? AddCircleFillIcon : AddCircleIcon,
+                    alt: "AddCircleIcon",
+                    text: "유사문제",
+                    onClick: () => handleAddSimilarProblem(problem.id),
+                    isSelected: isSelected,
+                  },
+                  {
+                    icon: DeleteIcon,
+                    alt: "DeleteIcon",
+                    text: "삭제",
+                    onClick: () => handleDeleteProblem(problem.id),
+                  },
+                ]}
+              />
+            );
+          })}
         </main>
         <footer className={styles.footerSection}>
           <div className={styles.levelCountSection}>{levelCountText}</div>

@@ -35,6 +35,7 @@ const SimilarProblemList = () => {
                 problemImageUrl={problem.problemImageUrl}
                 answerRate={problem.answerRate}
                 level={problem.level}
+                buttons={[]}
               />
             ))}
           </main>
