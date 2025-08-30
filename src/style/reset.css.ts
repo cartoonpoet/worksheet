@@ -29,7 +29,7 @@ globalStyle(
 /* Body styles */
 globalStyle("body", {
   lineHeight: "1.5",
-  fontFamily: "Arial, sans-serif",
+  fontFamily: "Spoqa Han Sans Neo, sans-serif",
   textRendering: "optimizeLegibility",
   WebkitFontSmoothing: "antialiased",
   MozOsxFontSmoothing: "grayscale",
