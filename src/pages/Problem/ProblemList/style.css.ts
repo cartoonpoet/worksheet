@@ -1,4 +1,5 @@
 import { style } from "@vanilla-extract/css";
+import { recipe } from "@vanilla-extract/recipes";
 import { color, font } from "../../../style/style.css";
 
 export const section = style({
@@ -65,9 +66,28 @@ export const separator = style([
   },
 ]);
 
-export const problemCountSection = style([
-  font.body.bold,
-  {
-    color: color.mono.white,
+export const problemCount = recipe({
+  base: [
+    font.body.bold,
+    {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      color: color.mono.white,
+    },
+  ],
+  variants: {
+    type: {
+      normal: {
+        color: color.mono.white,
+      },
+      danger: {
+        color: color.mono.red,
+      },
+    },
   },
-]);
+  defaultVariants: {
+    type: "normal",
+  },
+});

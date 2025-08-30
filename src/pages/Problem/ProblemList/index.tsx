@@ -55,9 +55,17 @@ const ProblemList = () => {
           })}
         </main>
         <footer className={styles.footerSection}>
-          <div className={styles.levelCountSection}>{levelCountText}</div>
-          <div className={styles.separator}>&nbsp;&nbsp;|&nbsp;</div>
-          <div className={styles.problemCountSection}>
+          {problemCount > 0 && (
+            <>
+              <div className={styles.levelCountSection}>{levelCountText}</div>
+              <div className={styles.separator}>&nbsp;&nbsp;|&nbsp;</div>
+            </>
+          )}
+          <div
+            className={styles.problemCount({
+              type: problemCount > 0 ? "normal" : "danger",
+            })}
+          >
             문제 수 {problemCount} 개
           </div>
         </footer>
