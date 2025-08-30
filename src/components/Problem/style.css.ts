@@ -111,5 +111,13 @@ export const problemImage = style({
   width: "70%",
   height: "auto",
   borderRadius: "0.8rem",
-  paddingBottom: "3.1rem",
+  paddingBottom: "2.4rem",
+  "@media": {
+    "(min-width: 1024px) and (max-width: 1279px)": {
+      paddingBottom: "2.4rem",
+    },
+    "(min-width: 1280px)": {
+      paddingBottom: "3.1rem",
+    },
+  },
 });
