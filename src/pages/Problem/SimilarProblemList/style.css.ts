@@ -2,7 +2,7 @@ import { style } from "@vanilla-extract/css";
 import { font, color } from "../../../style/style.css";
 
 export const guideSection = style([
-  font.regular,
+  font.body.regular,
   color.mono.gray900,
   {
     display: "flex",

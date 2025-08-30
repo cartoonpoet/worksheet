@@ -9,7 +9,7 @@ export const section = style({
 });
 
 export const headerSection = style([
-  font.bold,
+  font.head.bold,
   { color: color.mono.white, paddingTop: "1.7rem", paddingBottom: "1.6rem" },
 ]);
 
@@ -29,7 +29,7 @@ export const footerSection = style({
 });
 
 export const levelCountSection = style([
-  font.regular,
+  font.body.regular,
   {
     color: color.mono.gray400,
     letterSpacing: "-1%",
@@ -47,7 +47,7 @@ export const levelCountSection = style([
 ]);
 
 export const separator = style([
-  font.bold,
+  font.body.bold,
   {
     color: color.mono.gray400,
     fontWeight: 400,
@@ -55,7 +55,7 @@ export const separator = style([
 ]);
 
 export const problemCountSection = style([
-  font.bold,
+  font.body.bold,
   {
     color: color.mono.white,
   },

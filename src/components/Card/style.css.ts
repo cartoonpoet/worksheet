@@ -15,15 +15,18 @@ export const card = recipe({
         backgroundColor: color.mono.similar,
         "@media": {
           "(min-width: 1024px) and (max-width: 1279px)": { width: "48rem" },
-          "(min-width: 1280px)": { width: "48rem" }, //62.5%
+          "(min-width: 1280px)": { width: "50.4rem" },
         },
       },
       normal: {
         backgroundColor: color.mono.normal,
         "@media": {
-          "(min-width: 1024px) and (max-width: 1279px)": { width: "50.4rem" },
-          "(min-width: 1280px)": { width: "71.2rem" }, //62.5%
+          "(min-width: 1024px) and (max-width: 1279px)": { width: "48rem" },
+          "(min-width: 1280px)": { width: "71.2rem" },
         },
+      },
+      content: {
+        backgroundColor: color.mono.white,
       },
     },
   },

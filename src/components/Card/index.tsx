@@ -2,7 +2,7 @@ import * as styles from "./style.css";
 
 interface CardProps {
   children: React.ReactNode;
-  type: "similar" | "normal";
+  type: "similar" | "normal" | "content";
 }
 
 const Card = ({ children, type }: CardProps) => {
