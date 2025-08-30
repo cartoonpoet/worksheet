@@ -15,7 +15,8 @@ const createLevelCountText = (levelCount: LevelCountType) => {
   ];
 
   return levels
-    .map(({ key, label }) => `${label}${levelCount[key as LevelType] || 0}`)
+    .filter(({ key }) => levelCount[key as LevelType] > 0)
+    .map(({ key, label }) => `${label}${levelCount[key as LevelType]}`)
     .join(" · ");
 };
 
