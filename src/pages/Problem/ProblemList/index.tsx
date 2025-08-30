@@ -5,6 +5,12 @@ import { useGetProblems } from "apis/domain/problems/hook";
 const ProblemList = () => {
   const { data: problems = [] } = useGetProblems();
 
+  const levelCount = problems.reduce((acc, problem) => {
+    acc[problem.level] = (acc[problem.level] || 0) + 1;
+    return acc;
+  }, {} as Record<1 | 2 | 3 | 4 | 5, number>);
+  const problemCount = problems.length;
+
   return (
     <Card type="normal">
       <section className={styles.section}>
@@ -24,10 +30,13 @@ const ProblemList = () => {
         </main>
         <footer className={styles.footerSection}>
           <div className={styles.levelCountSection}>
-            하10 · 중하10 · 중10 · 상10 · 최상10
+            하{levelCount[1]} · 중하{levelCount[2]} · 중{levelCount[3]} · 상
+            {levelCount[4]} · 최상{levelCount[5]}
           </div>
           <div className={styles.separator}>&nbsp;&nbsp;|&nbsp;</div>
-          <div className={styles.problemCountSection}>문제 수 50 개</div>
+          <div className={styles.problemCountSection}>
+            문제 수 {problemCount} 개
+          </div>
         </footer>
       </section>
     </Card>
