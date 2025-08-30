@@ -27,7 +27,6 @@ export const card = recipe({
       },
       content: {
         backgroundColor: color.mono.white,
-        borderRadius: "0",
       },
     },
   },
