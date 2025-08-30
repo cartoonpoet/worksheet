@@ -4,9 +4,8 @@ import {
   useGetSimilarity,
 } from "apis/domain/similarity/hook";
 import { useQueryClient } from "@tanstack/react-query";
-import type { ProblemResponse } from "@/apis/domain/problems";
-import { PROBLEMS_QUERY_KEY } from "@/apis/domain/problems/hook";
-import { useShallow } from "zustand/shallow";
+import type { ProblemResponse } from "apis/domain/problems";
+import { PROBLEMS_QUERY_KEY } from "apis/domain/problems/hook";
 
 export const useSimilarProblemList = () => {
   const queryClient = useQueryClient();
