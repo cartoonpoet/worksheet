@@ -1,4 +1,4 @@
-import { style } from "@vanilla-extract/css";
+import { style, recipe } from "@vanilla-extract/css";
 import { font, color } from "style/style.css";
 
 export const headerSection = style({
@@ -67,6 +67,10 @@ export const button = style([
     alignItems: "center",
   },
 ]);
+
+export const buttonSelected = style({
+  color: "#00ABFF",
+});
 
 export const mainSection = style({
   display: "flex",

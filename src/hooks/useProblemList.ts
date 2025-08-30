@@ -23,11 +23,16 @@ const createLevelCountText = (levelCount: LevelCountType) => {
 
 export const useProblemList = () => {
   const { data = [] } = useGetProblems();
-  const problems = useProblemStore((state) => state.problems);
-  const { setProblems, addProblemId } = useProblemStore(
+  const { problems, selectedProblemId } = useProblemStore(
+    useShallow((state) => ({
+      problems: state.problems,
+      selectedProblemId: state.selectedProblemId,
+    }))
+  );
+  const { setProblems, setSelectedProblemId } = useProblemStore(
     useShallow((state) => ({
       setProblems: state.setProblems,
-      addProblemId: state.addProblemId,
+      setSelectedProblemId: state.setSelectedProblemId,
     }))
   );
 
@@ -43,10 +48,11 @@ export const useProblemList = () => {
 
   const handleDeleteProblem = (problemId: number) => {
     setProblems(problems.filter((problem) => problem.id !== problemId));
+    setSelectedProblemId(0);
   };
 
   const handleAddSimilarProblem = (problemId: number) => {
-    addProblemId(problemId);
+    setSelectedProblemId(problemId);
   };
   const levelCountText = createLevelCountText(levelCount);
 
@@ -56,5 +62,6 @@ export const useProblemList = () => {
     handleDeleteProblem,
     handleAddSimilarProblem,
     levelCountText,
+    selectedProblemId,
   };
 };

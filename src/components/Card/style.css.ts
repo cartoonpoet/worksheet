@@ -8,6 +8,7 @@ export const card = recipe({
     flexDirection: "column",
     justifyContent: "center",
     width: "100%",
+    border: "0.3rem solid transparent",
   },
   variants: {
     type: {
@@ -29,8 +30,14 @@ export const card = recipe({
         backgroundColor: color.mono.white,
       },
     },
+    isSelected: {
+      true: {
+        borderColor: "#00ABFF",
+      },
+    },
   },
   defaultVariants: {
     type: "normal",
+    isSelected: false,
   },
 });

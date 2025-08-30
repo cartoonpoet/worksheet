@@ -9,6 +9,7 @@ const ProblemList = () => {
     handleDeleteProblem,
     handleAddSimilarProblem,
     levelCountText,
+    selectedProblemId,
   } = useProblemList();
   return (
     <Card type="normal">
@@ -26,6 +27,7 @@ const ProblemList = () => {
               level={problem.level}
               onClickDelete={() => handleDeleteProblem(problem.id)}
               onClickSimilarProblem={() => handleAddSimilarProblem(problem.id)}
+              isSelected={selectedProblemId === problem.id}
             />
           ))}
         </main>

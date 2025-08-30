@@ -3,7 +3,7 @@ import { API_ENDPOINTS } from "apis/constants/apiPath";
 import { type ProblemResponse } from "../problems";
 
 interface SimilarityParams {
-  problemId: number;
+  selectedProblemId: number;
   excludeProblemId: number[];
 }
 
@@ -12,7 +12,12 @@ interface SimilarityParams {
  */
 export const getSimilarity = async (params: SimilarityParams) => {
   const response = await get<ProblemResponse[]>(
-    API_ENDPOINTS.GET_SIMILARITY(params.problemId)
+    API_ENDPOINTS.GET_SIMILARITY(params.selectedProblemId),
+    {
+      params: {
+        excludedProblemIds: params.excludeProblemId.join(","),
+      },
+    }
   );
   return response.data;
 };
