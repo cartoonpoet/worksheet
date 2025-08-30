@@ -7,6 +7,20 @@ import { useQueryClient } from "@tanstack/react-query";
 import type { ProblemResponse } from "apis/domain/problems";
 import { PROBLEMS_QUERY_KEY } from "apis/domain/problems/hook";
 
+const updateProblemsCache = (newProblems: ProblemResponse[]) => {
+  queryClient.setQueryData(
+    PROBLEMS_QUERY_KEY.GET_PROBLEMS_QUERY_KEY(),
+    newProblems
+  );
+};
+
+const updateSimilarProblemsCache = (newSimilarProblems: ProblemResponse[]) => {
+  queryClient.setQueryData(
+    SIMILARITY_QUERY_KEY.GET_SIMILARITY_QUERY_KEY(selectedProblemId),
+    newSimilarProblems
+  );
+};
+
 export const useSimilarProblemList = () => {
   const queryClient = useQueryClient();
   const problems =
@@ -28,11 +42,31 @@ export const useSimilarProblemList = () => {
     excludeProblemId,
   });
 
-  const handleAddProblem = (problemId: number) => {
-    // 1. active된 문제의 인덱스 찾기
-    const activeIndex = problems.findIndex((p) =>
+  const getActiveProblemIndex = () => {
+    return problems.findIndex((p) =>
       [selectedProblemId, replacedProblemId].includes(p.id)
     );
+  };
+
+  const updateProblemsCache = (newProblems: ProblemResponse[]) => {
+    queryClient.setQueryData(
+      PROBLEMS_QUERY_KEY.GET_PROBLEMS_QUERY_KEY(),
+      newProblems
+    );
+  };
+
+  const updateSimilarProblemsCache = (
+    newSimilarProblems: ProblemResponse[]
+  ) => {
+    queryClient.setQueryData(
+      SIMILARITY_QUERY_KEY.GET_SIMILARITY_QUERY_KEY(selectedProblemId),
+      newSimilarProblems
+    );
+  };
+
+  const handleAddProblem = (problemId: number) => {
+    // 1. active된 문제의 인덱스 찾기
+    const activeIndex = getActiveProblemIndex();
     if (activeIndex === -1) return; // active된 문제가 없으면 리턴
 
     // 2. 메인 문제 리스트에 active된 문제 바로 앞에 유사문제 추가
@@ -42,22 +76,15 @@ export const useSimilarProblemList = () => {
     const newProblems = problems.filter((p) => p.id !== problemId);
     newProblems.splice(activeIndex + 1, 0, findProblemInfo);
 
-    queryClient.setQueryData(
-      PROBLEMS_QUERY_KEY.GET_PROBLEMS_QUERY_KEY(),
-      newProblems
-    );
-
-    queryClient.setQueryData(
-      SIMILARITY_QUERY_KEY.GET_SIMILARITY_QUERY_KEY(selectedProblemId),
+    updateProblemsCache(newProblems);
+    updateSimilarProblemsCache(
       similarProblems.filter((p) => p.id !== problemId)
     );
   };
 
   const handleReplaceProblem = (problemId: number) => {
     setReplacedProblemId(problemId);
-    const activeProblemIndex = problems.findIndex((p) =>
-      [selectedProblemId, replacedProblemId].includes(p.id)
-    );
+    const activeProblemIndex = getActiveProblemIndex();
     if (activeProblemIndex === -1) return;
     const activeProblemInfo = problems[activeProblemIndex];
 
@@ -74,15 +101,8 @@ export const useSimilarProblemList = () => {
     const newSimilarProblems = [...similarProblems];
     newSimilarProblems[similarProblemIndex] = activeProblemInfo;
 
-    queryClient.setQueryData(
-      PROBLEMS_QUERY_KEY.GET_PROBLEMS_QUERY_KEY(),
-      newProblems
-    );
-
-    queryClient.setQueryData(
-      SIMILARITY_QUERY_KEY.GET_SIMILARITY_QUERY_KEY(selectedProblemId),
-      newSimilarProblems
-    );
+    updateProblemsCache(newProblems);
+    updateSimilarProblemsCache(newSimilarProblems);
   };
 
   return { similarProblems, handleAddProblem, handleReplaceProblem };
