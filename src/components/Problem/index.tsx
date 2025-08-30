@@ -1,8 +1,5 @@
 import { Card, Tag } from "components";
 import * as styles from "./style.css";
-import DeleteIcon from "assets/delete.png";
-import AddCircleIcon from "assets/add-circle.png";
-import AddCircleFillIcon from "assets/add-circle-fill.png";
 
 interface ButtonConfig {
   icon: string;
@@ -21,6 +18,7 @@ interface ProblemProps {
   level: 1 | 2 | 3 | 4 | 5; //난이도
   isSelected?: boolean;
   buttons: ButtonConfig[];
+  isUseSelect?: boolean;
 }
 
 const tagLevelMap = {
@@ -40,9 +38,10 @@ const Problem = ({
   level,
   isSelected,
   buttons,
+  isUseSelect,
 }: ProblemProps) => {
   return (
-    <Card type="content" isSelected={isSelected}>
+    <Card type="content" isSelected={isSelected} isUseSelect={isUseSelect}>
       <header className={styles.headerSection}>
         <section className={styles.numSection}>{num}</section>
         <section className={styles.titleSection}>

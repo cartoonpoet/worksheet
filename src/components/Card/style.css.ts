@@ -12,7 +12,6 @@ export const card = recipe({
   variants: {
     type: {
       similar: {
-        border: "0.3rem solid transparent",
         backgroundColor: color.mono.similar,
         "@media": {
           "(min-width: 1024px) and (max-width: 1279px)": { width: "48rem" },
@@ -20,7 +19,6 @@ export const card = recipe({
         },
       },
       normal: {
-        border: "0.3rem solid transparent",
         backgroundColor: color.mono.normal,
         "@media": {
           "(min-width: 1024px) and (max-width: 1279px)": { width: "48rem" },
@@ -29,6 +27,11 @@ export const card = recipe({
       },
       content: {
         backgroundColor: color.mono.white,
+      },
+    },
+    isUseSelect: {
+      true: {
+        border: "0.3rem solid transparent",
       },
     },
     isSelected: {
@@ -40,5 +43,6 @@ export const card = recipe({
   defaultVariants: {
     type: "normal",
     isSelected: false,
+    isUseSelect: false,
   },
 });

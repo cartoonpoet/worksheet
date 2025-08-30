@@ -23,6 +23,7 @@ const ProblemList = () => {
             const isSelected = selectedProblemId === problem.id;
             return (
               <Problem
+                isUseSelect
                 key={problem.id}
                 num={idx + 1}
                 title={problem.title}
