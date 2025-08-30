@@ -29,12 +29,14 @@ export const useProblemList = () => {
       selectedProblemId: state.selectedProblemId,
     }))
   );
-  const { setProblems, setSelectedProblemId } = useProblemStore(
-    useShallow((state) => ({
-      setProblems: state.setProblems,
-      setSelectedProblemId: state.setSelectedProblemId,
-    }))
-  );
+  const { setProblems, setSelectedProblemId, setSimilarProblems } =
+    useProblemStore(
+      useShallow((state) => ({
+        setProblems: state.setProblems,
+        setSelectedProblemId: state.setSelectedProblemId,
+        setSimilarProblems: state.setSimilarProblems,
+      }))
+    );
 
   useEffect(() => {
     if (data.length > 0) setProblems(data);
@@ -49,6 +51,7 @@ export const useProblemList = () => {
   const handleDeleteProblem = (problemId: number) => {
     setProblems(problems.filter((problem) => problem.id !== problemId));
     setSelectedProblemId(0);
+    setSimilarProblems([]);
   };
 
   const handleAddSimilarProblem = (problemId: number) => {

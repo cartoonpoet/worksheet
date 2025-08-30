@@ -1,32 +1,22 @@
 import { Card, Problem } from "components";
 import PlaceHolder from "./PlaceHolder";
 import * as styles from "./style.css";
-import { useProblemStore } from "store/useProblemStore";
-import { useGetSimilarity } from "apis/domain/similarity/hook";
-import { useShallow } from "zustand/shallow";
+import { useSimilarProblemList } from "hooks/useSimilarProblemList";
+import AddCircleIcon from "assets/add-circle.png";
+import ReplaceCircleIcon from "assets/swap_horiz.png";
 
 const SimilarProblemList = () => {
-  const { selectedProblemId, problems } = useProblemStore(
-    useShallow((state) => ({
-      selectedProblemId: state.selectedProblemId,
-      problems: state.problems,
-    }))
-  );
-  const { data = [] } = useGetSimilarity({
-    selectedProblemId,
-    excludeProblemId: problems
-      .filter((problem) => problem.id !== selectedProblemId)
-      .map((problem) => problem.id),
-  });
+  const { similarProblems, handleAddProblem, handleReplaceProblem } =
+    useSimilarProblemList();
   return (
     <Card type="similar">
-      {data.length === 0 ? (
+      {similarProblems.length === 0 ? (
         <PlaceHolder />
       ) : (
         <section className={styles.section}>
           <header className={styles.headerSection}>유사 문항</header>
           <main className={styles.mainSection}>
-            {data.map((problem, idx) => (
+            {similarProblems.map((problem, idx) => (
               <Problem
                 key={problem.id}
                 num={idx + 1}
@@ -35,7 +25,20 @@ const SimilarProblemList = () => {
                 problemImageUrl={problem.problemImageUrl}
                 answerRate={problem.answerRate}
                 level={problem.level}
-                buttons={[]}
+                buttons={[
+                  {
+                    icon: ReplaceCircleIcon,
+                    alt: "ReplaceCircleIcon",
+                    text: "교체",
+                    onClick: () => handleReplaceProblem(problem.id),
+                  },
+                  {
+                    icon: AddCircleIcon,
+                    alt: "AddCircleIcon",
+                    text: "추가",
+                    onClick: () => handleAddProblem(problem.id),
+                  },
+                ]}
               />
             ))}
           </main>
