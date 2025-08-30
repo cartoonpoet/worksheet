@@ -10,7 +10,7 @@ export interface ProblemType {
    * @description 1:하, 2:중하, 3:중, 4:상, 5:최상
    * @example 4
    */
-  level: 1 | 2 | 3 | 4 | 5;
+  level: LevelType;
 
   /**
    * 문제의 유형

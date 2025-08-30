@@ -1,5 +1,6 @@
 import { Card, Tag } from "components";
 import * as styles from "./style.css";
+import { type LevelType } from "../../type";
 
 interface ButtonConfig {
   icon: string;
@@ -15,7 +16,7 @@ interface ProblemProps {
   isShortAnswer: boolean; // 주관식 여부
   problemImageUrl: string;
   answerRate: number;
-  level: 1 | 2 | 3 | 4 | 5; //난이도
+  level: LevelType; //난이도
   isSelected?: boolean;
   buttons: ButtonConfig[];
   isUseSelect?: boolean;

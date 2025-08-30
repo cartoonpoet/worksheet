@@ -1,8 +1,9 @@
 import * as styles from "./style.css";
+import { type LevelType } from "../../type";
 
 interface TagProps {
   children: React.ReactNode;
-  level: 1 | 2 | 3 | 4 | 5;
+  level: LevelType;
 }
 
 const Tag = ({ children, level }: TagProps) => {
