@@ -4,27 +4,13 @@ import {
   useGetSimilarity,
 } from "apis/domain/similarity/hook";
 import { useQueryClient } from "@tanstack/react-query";
-import type { ProblemResponse } from "apis/domain/problems";
+import { type ProblemType } from "../type";
 import { PROBLEMS_QUERY_KEY } from "apis/domain/problems/hook";
-
-const updateProblemsCache = (newProblems: ProblemResponse[]) => {
-  queryClient.setQueryData(
-    PROBLEMS_QUERY_KEY.GET_PROBLEMS_QUERY_KEY(),
-    newProblems
-  );
-};
-
-const updateSimilarProblemsCache = (newSimilarProblems: ProblemResponse[]) => {
-  queryClient.setQueryData(
-    SIMILARITY_QUERY_KEY.GET_SIMILARITY_QUERY_KEY(selectedProblemId),
-    newSimilarProblems
-  );
-};
 
 export const useSimilarProblemList = () => {
   const queryClient = useQueryClient();
   const problems =
-    queryClient.getQueryData<ProblemResponse[]>(
+    queryClient.getQueryData<ProblemType[]>(
       PROBLEMS_QUERY_KEY.GET_PROBLEMS_QUERY_KEY()
     ) || [];
   const selectedProblemId = useProblemStore((state) => state.selectedProblemId);
@@ -48,16 +34,14 @@ export const useSimilarProblemList = () => {
     );
   };
 
-  const updateProblemsCache = (newProblems: ProblemResponse[]) => {
+  const updateProblemsCache = (newProblems: ProblemType[]) => {
     queryClient.setQueryData(
       PROBLEMS_QUERY_KEY.GET_PROBLEMS_QUERY_KEY(),
       newProblems
     );
   };
 
-  const updateSimilarProblemsCache = (
-    newSimilarProblems: ProblemResponse[]
-  ) => {
+  const updateSimilarProblemsCache = (newSimilarProblems: ProblemType[]) => {
     queryClient.setQueryData(
       SIMILARITY_QUERY_KEY.GET_SIMILARITY_QUERY_KEY(selectedProblemId),
       newSimilarProblems
@@ -65,11 +49,9 @@ export const useSimilarProblemList = () => {
   };
 
   const handleAddProblem = (problemId: number) => {
-    // 1. active된 문제의 인덱스 찾기
     const activeIndex = getActiveProblemIndex();
-    if (activeIndex === -1) return; // active된 문제가 없으면 리턴
+    if (activeIndex === -1) return;
 
-    // 2. 메인 문제 리스트에 active된 문제 바로 앞에 유사문제 추가
     const findProblemInfo = similarProblems.find((p) => p.id === problemId);
     if (!findProblemInfo) return;
 
@@ -94,7 +76,6 @@ export const useSimilarProblemList = () => {
     if (similarProblemIndex === -1) return;
     const tempProblem = similarProblems[similarProblemIndex];
 
-    // 새로운 배열 생성 (불변성 유지)
     const newProblems = [...problems];
     newProblems[activeProblemIndex] = tempProblem;
 

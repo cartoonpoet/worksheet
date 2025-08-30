@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getProblems } from ".";
-import { type ProblemType } from "type";
+import { type ProblemType } from "../../../type";
 
 export const PROBLEMS_QUERY_KEY = {
   GET_PROBLEMS_QUERY_KEY: () => ["problems"],
