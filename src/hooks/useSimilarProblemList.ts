@@ -30,14 +30,26 @@ export const useSimilarProblemList = () => {
 
   const handleAddProblem = (problemId: number) => {
     // 1. active된 문제의 인덱스 찾기
-    const activeIndex = problems.findIndex((p) => p.id === selectedProblemId);
+    const activeIndex = problems.findIndex((p) =>
+      [selectedProblemId, replacedProblemId].includes(p.id)
+    );
     if (activeIndex === -1) return; // active된 문제가 없으면 리턴
 
     // 2. 메인 문제 리스트에 active된 문제 바로 앞에 유사문제 추가
     const findProblemInfo = similarProblems.find((p) => p.id === problemId);
     if (!findProblemInfo) return;
     const newProblems = [...problems];
-    newProblems.splice(activeIndex, 0, findProblemInfo);
+    newProblems.splice(activeIndex + 1, 0, findProblemInfo);
+
+    queryClient.setQueryData(
+      PROBLEMS_QUERY_KEY.GET_PROBLEMS_QUERY_KEY(),
+      newProblems
+    );
+
+    queryClient.setQueryData(
+      SIMILARITY_QUERY_KEY.GET_SIMILARITY_QUERY_KEY(selectedProblemId),
+      similarProblems.filter((p) => p.id !== problemId)
+    );
   };
 
   const handleReplaceProblem = (problemId: number) => {
