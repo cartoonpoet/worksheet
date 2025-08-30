@@ -1,7 +1,7 @@
 import { PROBLEMS_QUERY_KEY, useGetProblems } from "apis/domain/problems/hook";
 import { useProblemStore } from "store/useProblemStore";
 import { useQueryClient } from "@tanstack/react-query";
-import { SIMILARITY_QUERY_KEY } from "@/apis/domain/similarity/hook";
+import { SIMILARITY_QUERY_KEY } from "apis/domain/similarity/hook";
 import { useShallow } from "zustand/shallow";
 type LevelCountType = Record<1 | 2 | 3 | 4 | 5, number>;
 
