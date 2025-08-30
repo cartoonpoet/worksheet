@@ -1,34 +1,25 @@
-import { useEffect } from "react";
 import { useProblemStore } from "store/useProblemStore";
 import { useGetSimilarity } from "apis/domain/similarity/hook";
-import { useShallow } from "zustand/shallow";
+import { useQueryClient } from "@tanstack/react-query";
+import type { ProblemResponse } from "@/apis/domain/problems";
+import { PROBLEMS_QUERY_KEY } from "@/apis/domain/problems/hook";
 
 export const useSimilarProblemList = () => {
-  const { selectedProblemId, problems, similarProblems } = useProblemStore(
-    useShallow((state) => ({
-      selectedProblemId: state.selectedProblemId,
-      problems: state.problems,
-      similarProblems: state.similarProblems,
-    }))
+  const queryClient = useQueryClient();
+  const problems =
+    queryClient.getQueryData<ProblemResponse[]>(
+      PROBLEMS_QUERY_KEY.GET_PROBLEMS_QUERY_KEY()
+    ) || [];
+  const selectedProblemId = useProblemStore((state) => state.selectedProblemId);
+  const setSelectedProblemId = useProblemStore(
+    (state) => state.setSelectedProblemId
   );
-  const { setSimilarProblems, setProblems, setSelectedProblemId } =
-    useProblemStore(
-      useShallow((state) => ({
-        setSimilarProblems: state.setSimilarProblems,
-        setProblems: state.setProblems,
-        setSelectedProblemId: state.setSelectedProblemId,
-      }))
-    );
-  const { data = [] } = useGetSimilarity({
+  const { data: similarProblems = [] } = useGetSimilarity({
     selectedProblemId,
     excludeProblemId: problems
       .filter((problem) => problem.id !== selectedProblemId)
       .map((problem) => problem.id),
   });
-
-  useEffect(() => {
-    if (data.length > 0) setSimilarProblems(data);
-  }, [data]);
 
   const handleAddProblem = (problemId: number) => {
     // 1. active된 문제의 인덱스 찾기
@@ -40,10 +31,6 @@ export const useSimilarProblemList = () => {
     if (!findProblemInfo) return;
     const newProblems = [...problems];
     newProblems.splice(activeIndex, 0, findProblemInfo);
-    setProblems(newProblems);
-
-    // 3. 유사문제 리스트에서 해당 문제 삭제
-    setSimilarProblems(similarProblems.filter((p) => p.id !== problemId));
   };
 
   const handleReplaceProblem = (problemId: number) => {
@@ -60,8 +47,6 @@ export const useSimilarProblemList = () => {
     const tempProblem = similarProblems[similarProblemIndex];
     similarProblems[similarProblemIndex] = activeProblemInfo;
     problems[activeProblemIndex] = tempProblem;
-    setProblems([...problems]);
-    setSimilarProblems([...similarProblems]);
     setSelectedProblemId(problemId);
   };
 

@@ -22,6 +22,6 @@ export const useGetSimilarity = (params: SimilarityParams) => {
       params.excludeProblemId
     ),
     queryFn: () => getSimilarity(params),
-    enabled: params.selectedProblemId !== 0,
+    enabled: params.selectedProblemId > 0 && params.excludeProblemId.length > 0,
   });
 };

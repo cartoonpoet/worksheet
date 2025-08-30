@@ -1,7 +1,8 @@
-import { useGetProblems } from "apis/domain/problems/hook";
+import { PROBLEMS_QUERY_KEY, useGetProblems } from "apis/domain/problems/hook";
 import { useProblemStore } from "store/useProblemStore";
-import { useEffect } from "react";
-import { useShallow } from "zustand/shallow";
+import { useQueryClient } from "@tanstack/react-query";
+import type { ProblemResponse } from "@/apis/domain/problems";
+import { SIMILARITY_QUERY_KEY } from "@/apis/domain/similarity/hook";
 
 type LevelCountType = Record<1 | 2 | 3 | 4 | 5, number>;
 
@@ -22,25 +23,13 @@ const createLevelCountText = (levelCount: LevelCountType) => {
 };
 
 export const useProblemList = () => {
-  const { data = [] } = useGetProblems();
-  const { problems, selectedProblemId } = useProblemStore(
-    useShallow((state) => ({
-      problems: state.problems,
-      selectedProblemId: state.selectedProblemId,
-    }))
-  );
-  const { setProblems, setSelectedProblemId, setSimilarProblems } =
-    useProblemStore(
-      useShallow((state) => ({
-        setProblems: state.setProblems,
-        setSelectedProblemId: state.setSelectedProblemId,
-        setSimilarProblems: state.setSimilarProblems,
-      }))
-    );
+  const queryClient = useQueryClient();
+  const { data: problems = [] } = useGetProblems();
+  const selectedProblemId = useProblemStore((state) => state.selectedProblemId);
 
-  useEffect(() => {
-    if (data.length > 0) setProblems(data);
-  }, [data]);
+  const setSelectedProblemId = useProblemStore(
+    (state) => state.setSelectedProblemId
+  );
 
   const levelCount = problems.reduce((acc, problem) => {
     acc[problem.level] = (acc[problem.level] || 0) + 1;
@@ -49,9 +38,19 @@ export const useProblemList = () => {
   const problemCount = problems.length;
 
   const handleDeleteProblem = (problemId: number) => {
-    setProblems(problems.filter((problem) => problem.id !== problemId));
-    setSelectedProblemId(0);
-    setSimilarProblems([]);
+    queryClient.setQueryData(
+      SIMILARITY_QUERY_KEY.GET_SIMILARITY_QUERY_KEY(
+        selectedProblemId,
+        problems
+          .filter((problem) => problem.id !== problemId)
+          .map((problem) => problem.id)
+      ),
+      []
+    );
+    queryClient.setQueryData(
+      PROBLEMS_QUERY_KEY.GET_PROBLEMS_QUERY_KEY(),
+      problems.filter((problem) => problem.id !== problemId)
+    );
   };
 
   const handleAddSimilarProblem = (problemId: number) => {
