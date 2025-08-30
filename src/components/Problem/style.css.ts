@@ -58,8 +58,19 @@ export const button = style([
 export const mainSection = style({
   display: "flex",
   flexDirection: "row",
-  gap: "1.9rem",
-  padding: "1.6rem",
+  gap: "1.5rem",
+  padding: "2.4rem 1.6rem",
+  overflow: "hidden",
+  "@media": {
+    "(min-width: 1024px) and (max-width: 1279px)": {
+      gap: "1.5rem",
+      padding: "2.4rem 1.6rem",
+    },
+    "(min-width: 1280px)": {
+      gap: "2.2rem",
+      padding: "1.6rem",
+    },
+  },
 });
 
 export const tagSection = style({
@@ -81,3 +92,11 @@ export const type = style([
     color: color.mono.gray600,
   },
 ]);
+
+export const problemImage = style({
+  objectFit: "contain",
+  width: "70%",
+  height: "auto",
+  borderRadius: "0.8rem",
+  paddingBottom: "3.1rem",
+});

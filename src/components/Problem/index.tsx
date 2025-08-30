@@ -58,7 +58,14 @@ const Problem = ({
             </div>
           </Tag>
         </div>
-        <img src={problemImageUrl} alt="problemImage" draggable={false} />
+        <div>
+          <img
+            src={problemImageUrl}
+            alt="problemImage"
+            draggable={false}
+            className={styles.problemImage}
+          />
+        </div>
       </main>
     </Card>
   );
