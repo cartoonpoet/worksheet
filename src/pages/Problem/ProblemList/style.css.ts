@@ -24,12 +24,14 @@ export const mainSection = style({
   "::-webkit-scrollbar": {
     display: "none",
   },
-
   // Firefox에서 스크롤바 숨기기
   scrollbarWidth: "none",
-
   // IE에서 스크롤바 숨기기
   msOverflowStyle: "none",
+});
+
+export const placeholderSection = style({
+  justifyContent: "center",
 });
 
 export const footerSection = style({
@@ -91,3 +93,11 @@ export const problemCount = recipe({
     type: "normal",
   },
 });
+
+export const placeholder = style([
+  font.body.regular,
+  {
+    color: color.mono.white,
+    textAlign: "center",
+  },
+]);
