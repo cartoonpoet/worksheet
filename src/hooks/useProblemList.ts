@@ -2,7 +2,7 @@ import { PROBLEMS_QUERY_KEY, useGetProblems } from "apis/domain/problems/hook";
 import { useProblemStore } from "store/useProblemStore";
 import { useQueryClient } from "@tanstack/react-query";
 import { SIMILARITY_QUERY_KEY } from "@/apis/domain/similarity/hook";
-
+import { useShallow } from "zustand/shallow";
 type LevelCountType = Record<1 | 2 | 3 | 4 | 5, number>;
 
 const createLevelCountText = (levelCount: LevelCountType) => {
@@ -25,9 +25,13 @@ export const useProblemList = () => {
   const queryClient = useQueryClient();
   const { data: problems = [] } = useGetProblems();
   const selectedProblemId = useProblemStore((state) => state.selectedProblemId);
+  const replacedProblemId = useProblemStore((state) => state.replacedProblemId);
 
-  const setSelectedProblemId = useProblemStore(
-    (state) => state.setSelectedProblemId
+  const { setSelectedProblemId, setReplacedProblemId } = useProblemStore(
+    useShallow((state) => ({
+      setSelectedProblemId: state.setSelectedProblemId,
+      setReplacedProblemId: state.setReplacedProblemId,
+    }))
   );
 
   const levelCount = problems.reduce((acc, problem) => {
@@ -37,13 +41,10 @@ export const useProblemList = () => {
   const problemCount = problems.length;
 
   const handleDeleteProblem = (problemId: number) => {
+    setReplacedProblemId(0);
+    setSelectedProblemId(0);
     queryClient.setQueryData(
-      SIMILARITY_QUERY_KEY.GET_SIMILARITY_QUERY_KEY(
-        selectedProblemId,
-        problems
-          .filter((problem) => problem.id !== problemId)
-          .map((problem) => problem.id)
-      ),
+      SIMILARITY_QUERY_KEY.GET_SIMILARITY_QUERY_KEY(selectedProblemId),
       []
     );
     queryClient.setQueryData(
@@ -54,9 +55,9 @@ export const useProblemList = () => {
 
   const handleAddSimilarProblem = (problemId: number) => {
     setSelectedProblemId(problemId);
+    setReplacedProblemId(0);
   };
   const levelCountText = createLevelCountText(levelCount);
-
   return {
     problemCount,
     problems,
@@ -64,5 +65,6 @@ export const useProblemList = () => {
     handleAddSimilarProblem,
     levelCountText,
     selectedProblemId,
+    replacedProblemId,
   };
 };

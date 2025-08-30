@@ -13,6 +13,7 @@ const ProblemList = () => {
     handleAddSimilarProblem,
     levelCountText,
     selectedProblemId,
+    replacedProblemId,
   } = useProblemList();
   return (
     <Card type="normal">
@@ -20,7 +21,9 @@ const ProblemList = () => {
         <header className={styles.headerSection}>학습지 상세 편집</header>
         <main className={styles.mainSection}>
           {problems.map((problem, idx) => {
-            const isSelected = selectedProblemId === problem.id;
+            const isSelected = [selectedProblemId, replacedProblemId].includes(
+              problem.id
+            );
             return (
               <Problem
                 isUseSelect

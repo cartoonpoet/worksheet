@@ -1,8 +1,12 @@
 import { useProblemStore } from "store/useProblemStore";
-import { useGetSimilarity } from "apis/domain/similarity/hook";
+import {
+  SIMILARITY_QUERY_KEY,
+  useGetSimilarity,
+} from "apis/domain/similarity/hook";
 import { useQueryClient } from "@tanstack/react-query";
 import type { ProblemResponse } from "@/apis/domain/problems";
 import { PROBLEMS_QUERY_KEY } from "@/apis/domain/problems/hook";
+import { useShallow } from "zustand/shallow";
 
 export const useSimilarProblemList = () => {
   const queryClient = useQueryClient();
@@ -11,14 +15,18 @@ export const useSimilarProblemList = () => {
       PROBLEMS_QUERY_KEY.GET_PROBLEMS_QUERY_KEY()
     ) || [];
   const selectedProblemId = useProblemStore((state) => state.selectedProblemId);
-  const setSelectedProblemId = useProblemStore(
-    (state) => state.setSelectedProblemId
+  const replacedProblemId = useProblemStore((state) => state.replacedProblemId);
+  const setReplacedProblemId = useProblemStore(
+    (state) => state.setReplacedProblemId
   );
+
+  const excludeProblemId = problems
+    .filter((problem) => problem.id !== selectedProblemId)
+    .map((problem) => problem.id);
+
   const { data: similarProblems = [] } = useGetSimilarity({
     selectedProblemId,
-    excludeProblemId: problems
-      .filter((problem) => problem.id !== selectedProblemId)
-      .map((problem) => problem.id),
+    excludeProblemId,
   });
 
   const handleAddProblem = (problemId: number) => {
@@ -34,8 +42,9 @@ export const useSimilarProblemList = () => {
   };
 
   const handleReplaceProblem = (problemId: number) => {
-    const activeProblemIndex = problems.findIndex(
-      (p) => p.id === selectedProblemId
+    setReplacedProblemId(problemId);
+    const activeProblemIndex = problems.findIndex((p) =>
+      [selectedProblemId, replacedProblemId].includes(p.id)
     );
     if (activeProblemIndex === -1) return;
     const activeProblemInfo = problems[activeProblemIndex];
@@ -45,9 +54,23 @@ export const useSimilarProblemList = () => {
     );
     if (similarProblemIndex === -1) return;
     const tempProblem = similarProblems[similarProblemIndex];
-    similarProblems[similarProblemIndex] = activeProblemInfo;
-    problems[activeProblemIndex] = tempProblem;
-    setSelectedProblemId(problemId);
+
+    // 새로운 배열 생성 (불변성 유지)
+    const newProblems = [...problems];
+    newProblems[activeProblemIndex] = tempProblem;
+
+    const newSimilarProblems = [...similarProblems];
+    newSimilarProblems[similarProblemIndex] = activeProblemInfo;
+
+    queryClient.setQueryData(
+      PROBLEMS_QUERY_KEY.GET_PROBLEMS_QUERY_KEY(),
+      newProblems
+    );
+
+    queryClient.setQueryData(
+      SIMILARITY_QUERY_KEY.GET_SIMILARITY_QUERY_KEY(selectedProblemId),
+      newSimilarProblems
+    );
   };
 
   return { similarProblems, handleAddProblem, handleReplaceProblem };
