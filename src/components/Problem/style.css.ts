@@ -40,7 +40,7 @@ export const title = style([
         whiteSpace: "nowrap",
         overflow: "hidden",
         textOverflow: "ellipsis",
-        maxWidth: "22.8rem",
+        maxWidth: "22rem",
       },
       "(min-width: 1280px)": {},
     },
